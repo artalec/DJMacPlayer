@@ -2,9 +2,9 @@ name: Build macOS App
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
 
 jobs:
   build:
@@ -13,8 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
     - name: Build Swift Package Release
-      run: swift build -c release
+      run: |
+        swift build -c release --disable-sandbox
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
