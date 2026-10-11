@@ -1,0 +1,23 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Swift Package Release
+      run: swift build -c release
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: DJMacPlayer-Binary
+        path: .build/release/DJMacPlayer
